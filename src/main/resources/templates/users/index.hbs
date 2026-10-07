@@ -12,7 +12,12 @@
 <ul class="list-group">
 {{#users}}
 	<li class="list-group-item">
-		{{login}} - {{id}}
+		<div class="hstack gap-3">
+		  <div class="p-2">{{login}}</div>
+		  <div class="p-2 ms-auto">
+			<a href="/users/update/{{id}}" class="btn btn-secondary btn-sm">...</a>
+		  </div>
+		</div>
 	</li>
 {{/users}}
 </ul>
