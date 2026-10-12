@@ -3,10 +3,19 @@ package sio.spring.todo.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+
+@Entity
 public class User extends BaseObject {
 
+	@Column(length = 120, nullable = false)
 	private String login;
+
 	private String password;
+
+	@OneToMany(mappedBy = "owner")
 	private List<TodoList> todoLists;
 
 	public User() {

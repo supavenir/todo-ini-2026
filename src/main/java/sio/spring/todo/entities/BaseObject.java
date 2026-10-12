@@ -2,8 +2,13 @@ package sio.spring.todo.entities;
 
 import java.util.UUID;
 
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public class BaseObject {
 
+	@Id
 	private UUID id;
 
 	public BaseObject() {

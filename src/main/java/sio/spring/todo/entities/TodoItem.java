@@ -1,8 +1,15 @@
 package sio.spring.todo.entities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+
+@Entity
 public class TodoItem extends BaseObject {
 	private String label;
 	private boolean checked;
+
+	@ManyToOne
+	private TodoList list;
 
 	public TodoItem() {
 		this("Item");

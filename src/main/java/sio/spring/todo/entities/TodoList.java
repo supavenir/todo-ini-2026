@@ -4,10 +4,23 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+
+@Entity
 public class TodoList extends BaseObject {
+
+	@Column(length = 150, nullable = false)
 	private String name;
+
 	private LocalDateTime createdAt;
+
+	@ManyToOne
 	private User owner;
+
+	@OneToMany(mappedBy = "list")
 	private List<TodoItem> items;
 
 	public TodoList() {
