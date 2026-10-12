@@ -1,4 +1,9 @@
 {{> include/header }}
 <h1>Gestion de Todo listes</h1>
 <a href="/users" class="btn btn-dark">Utilisateurs</a>
+{{#currentUser}}
+Utilisateur connecté : {{login}}
+<h2>Todolistes de {{login}}</h2>
+<a href="/todos/add" class="btn btn-dark">Ajouter une Todo liste</a>
+{{/currentUser}}
 {{> include/footer }}

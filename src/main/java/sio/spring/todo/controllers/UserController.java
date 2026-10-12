@@ -17,14 +17,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import sio.spring.todo.entities.User;
-import sio.spring.todo.repositories.UserMemoryRepository;
+import sio.spring.todo.repositories.UserRepository;
 
 @Controller
 @RequestMapping("/users")
 public class UserController {
 
 	@Autowired
-	private UserMemoryRepository userRepository;
+	private UserRepository userRepository;
 
 	@GetMapping
 	public String index(Model model) {
