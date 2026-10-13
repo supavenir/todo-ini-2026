@@ -7,7 +7,7 @@ Utilisateur connecté : {{login}}
 <a href="/todos/add" class="btn btn-dark">Ajouter une Todo liste</a>
 <ul>
 	{{#todoLists}}
-	<li>{{name}} - ({{items.size}})</li>
+	<li><a href="/todos/{{id}}">{{name}} - ({{items.size}})</a></li>
 	{{/todoLists}}
 </ul>
 {{/currentUser}}

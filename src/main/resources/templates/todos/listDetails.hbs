@@ -1,0 +1,67 @@
+{{> /include/header }}
+
+{{#todolist}}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h1 class="h4 mb-0">{{name}}</h1>
+        <span class="badge bg-secondary">Liste de tâches</span>
+    </div>
+
+    <div class="card-body">
+        <dl class="row mb-4">
+            <dt class="col-sm-3">Propriétaire</dt>
+            <dd class="col-sm-9">
+                {{#owner}}
+                    {{login}}
+                {{/owner}}
+                {{^owner}}
+                    Non renseigné
+                {{/owner}}
+            </dd>
+
+            <dt class="col-sm-3">Créée le</dt>
+            <dd class="col-sm-9">
+                {{#createdAt}}
+                    {{createdAt}}
+                {{/createdAt}}
+                {{^createdAt}}
+                    Non renseignée
+                {{/createdAt}}
+            </dd>
+        </dl>
+
+        <h2 class="h5 mb-3">Éléments</h2>
+
+        <ul class="list-group">
+            {{#items}}
+            <form method="post" action="/todos/{{todolist.id}}/{{id}}/toggle">
+	            <li class="list-group-item d-flex align-items-center gap-2">
+	                {{#checked}}
+	                    <input class="form-check-input mt-0" type="checkbox" checked onchange="this.form.submit()">
+	                    <span class="text-decoration-line-through text-muted">{{label}}</span>
+	                    <span class="badge bg-success ms-auto">Terminée</span>
+	                {{/checked}}
+	
+	                {{^checked}}
+	                    <input class="form-check-input mt-0" type="checkbox" onchange="this.form.submit()">
+	                    <span>{{label}}</span>
+	                    <span class="badge bg-warning text-dark ms-auto">À faire</span>
+	                {{/checked}}
+	            </li>
+            </form>
+            {{/items}}
+        </ul>
+
+        {{^items}}
+        <p class="text-muted mb-0">Aucun élément dans cette liste.</p>
+        {{/items}}
+    </div>
+</div>
+{{/todolist}}
+
+{{^todolist}}
+<div class="alert alert-warning" role="alert">
+    Cette liste de tâches est introuvable.
+</div>
+{{/todolist}}
+{{> /include/footer }}
