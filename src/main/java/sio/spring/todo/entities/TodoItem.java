@@ -37,4 +37,8 @@ public class TodoItem extends BaseObject {
 		this.label = label;
 	}
 
+	public void setList(TodoList list) {
+		this.list = list;
+	}
+
 }

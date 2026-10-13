@@ -5,5 +5,10 @@
 Utilisateur connecté : {{login}}
 <h2>Todolistes de {{login}}</h2>
 <a href="/todos/add" class="btn btn-dark">Ajouter une Todo liste</a>
+<ul>
+	{{#todoLists}}
+	<li>{{name}} - ({{items.size}})</li>
+	{{/todoLists}}
+</ul>
 {{/currentUser}}
 {{> include/footer }}

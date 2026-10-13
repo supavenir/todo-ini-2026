@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -20,7 +21,7 @@ public class TodoList extends BaseObject {
 	@ManyToOne
 	private User owner;
 
-	@OneToMany(mappedBy = "list")
+	@OneToMany(mappedBy = "list", cascade = CascadeType.ALL)
 	private List<TodoItem> items;
 
 	public TodoList() {
@@ -56,5 +57,17 @@ public class TodoList extends BaseObject {
 
 	public List<TodoItem> getItems() {
 		return items;
+	}
+
+	public void addItem(TodoItem item) {
+		if (items.add(item)) {
+			item.setList(this);
+		}
+	}
+
+	public void addItems(List<TodoItem> items) {
+		for (TodoItem item : items) {
+			addItem(item);
+		}
 	}
 }
