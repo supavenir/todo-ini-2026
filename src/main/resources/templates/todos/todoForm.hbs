@@ -1,0 +1,37 @@
+{{> /include/header }}
+
+{{#todolist}}
+<form action="/todos/add" method="post">
+    <input type="hidden" name="id" value="{{id}}">
+
+    <div class="mb-3">
+        <label for="name" class="form-label">Nom</label>
+        <input
+            type="text"
+            class="form-control"
+            id="name"
+            name="name"
+            value="{{name}}"
+        >
+    </div>
+
+    <div class="mb-3">
+        <label for="elements" class="form-label">Éléments</label>
+        <textarea
+            class="form-control"
+            id="elements"
+            name="elements"
+            rows="5"
+        >{{#elements}}{{.}}{{/elements}}</textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+</form>
+{{/todolist}}
+
+{{^todolist}}
+<div class="alert alert-info" role="alert">
+    Aucune liste de tâches n’est disponible.
+</div>
+{{/todolist}}
+{{> /include/header }}
