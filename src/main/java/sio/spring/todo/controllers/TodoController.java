@@ -3,7 +3,6 @@ package sio.spring.todo.controllers;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,11 +21,14 @@ import sio.spring.todo.services.TodoService;
 @RequestMapping("/todos")
 public class TodoController {
 
-	@Autowired
-	private AppService appService;
+	private final AppService appService;
 
-	@Autowired
-	private TodoService todoService;
+	private final TodoService todoService;
+
+	TodoController(AppService appService, TodoService todoService) {
+		this.appService = appService;
+		this.todoService = todoService;
+	}
 
 	@GetMapping
 	public ModelAndView index() {
