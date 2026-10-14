@@ -57,6 +57,6 @@ public class TodoController {
 	@PostMapping("/add")
 	public RedirectView submitCreate(@ModelAttribute TodoListCreateRequest todoRequest) {
 		todoService.createNewList(todoRequest);
-		return new RedirectView("/todos");
+		return new RedirectView("/");
 	}
 }

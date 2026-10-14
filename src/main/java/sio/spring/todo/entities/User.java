@@ -5,17 +5,18 @@ import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 
 @Entity
 public class User extends BaseObject {
 
-	@Column(length = 120, nullable = false)
+	@Column(length = 120, nullable = false,unique = true)
 	private String login;
 
 	private String password;
 
-	@OneToMany(mappedBy = "owner")
+	@OneToMany(mappedBy = "owner",fetch = FetchType.EAGER)
 	private List<TodoList> todoLists;
 
 	public User() {

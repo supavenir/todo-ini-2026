@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import sio.spring.todo.dtos.TodoListCreateRequest;
 import sio.spring.todo.entities.TodoItem;
 import sio.spring.todo.entities.TodoList;
+import sio.spring.todo.entities.User;
 import sio.spring.todo.repositories.TodoItemRepository;
 import sio.spring.todo.repositories.TodoListRepository;
 
@@ -40,6 +41,10 @@ public class TodoService {
 
 	public List<TodoList> getAllLists() {
 		return todoListRepository.findAll();
+	}
+	
+	public List<TodoList> findByOwner(User owner){
+		return todoListRepository.findByOwner(owner);
 	}
 
 	public Optional<TodoList> getById(UUID id) {

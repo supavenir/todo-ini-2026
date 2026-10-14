@@ -1,14 +1,18 @@
 {{> include/header }}
 <h1>Gestion de Todo listes</h1>
-<a href="/users" class="btn btn-dark">Utilisateurs</a>
 {{#currentUser}}
 Utilisateur connecté : {{login}}
+<a href="/logout" class="btn btn-danger">Déconnexion</a>
 <h2>Todolistes de {{login}}</h2>
 <a href="/todos/add" class="btn btn-dark">Ajouter une Todo liste</a>
 <ul>
-	{{#todoLists}}
+	{{#lists}}
 	<li><a href="/todos/{{id}}">{{name}} - ({{items.size}})</a></li>
-	{{/todoLists}}
+	{{/lists}}
 </ul>
+{{/currentUser}}
+
+{{^currentUser}}
+	<a href="/signin" class="btn btn-success">Connexion</a>
 {{/currentUser}}
 {{> include/footer }}
