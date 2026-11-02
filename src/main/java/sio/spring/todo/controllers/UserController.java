@@ -24,8 +24,11 @@ import sio.spring.todo.services.UserService;
 @RequestMapping("/users")
 public class UserController {
 
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
+
+	UserController(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 
 	@Autowired
 	private UserService userService;

@@ -4,26 +4,29 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sio.spring.todo.dtos.TodoListCreateRequest;
 import sio.spring.todo.entities.TodoItem;
 import sio.spring.todo.entities.TodoList;
+import sio.spring.todo.entities.User;
 import sio.spring.todo.repositories.TodoItemRepository;
 import sio.spring.todo.repositories.TodoListRepository;
 
 @Service
 public class TodoService {
 
-	@Autowired
-	private AppService appService;
+	private final AppService appService;
 
-	@Autowired
-	private TodoListRepository todoListRepository;
+	private final TodoListRepository todoListRepository;
 
-	@Autowired
-	private TodoItemRepository todoItemRepository;
+	private final TodoItemRepository todoItemRepository;
+
+	TodoService(AppService appService, TodoListRepository todoListRepository, TodoItemRepository todoItemRepository) {
+		this.appService = appService;
+		this.todoListRepository = todoListRepository;
+		this.todoItemRepository = todoItemRepository;
+	}
 
 	private void elementsToList(String elements, TodoList list) {
 		for (String elm : elements.split("\n")) {
@@ -40,6 +43,10 @@ public class TodoService {
 
 	public List<TodoList> getAllLists() {
 		return todoListRepository.findAll();
+	}
+
+	public List<TodoList> findByOwner(User owner) {
+		return todoListRepository.findByOwner(owner);
 	}
 
 	public Optional<TodoList> getById(UUID id) {

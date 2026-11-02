@@ -7,6 +7,7 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
@@ -21,7 +22,7 @@ public class TodoList extends BaseObject {
 	@ManyToOne
 	private User owner;
 
-	@OneToMany(mappedBy = "list", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "list", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<TodoItem> items;
 
 	public TodoList() {
