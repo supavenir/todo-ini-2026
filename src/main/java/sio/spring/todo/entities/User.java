@@ -1,14 +1,18 @@
 package sio.spring.todo.entities;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 
 @Entity
-public class User extends BaseObject {
+public class User extends BaseObject implements UserDetails {
 
 	@Column(length = 120, nullable = false)
 	private String login;
@@ -46,6 +50,16 @@ public class User extends BaseObject {
 
 	public List<TodoList> getTodoLists() {
 		return todoLists;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return new ArrayList<GrantedAuthority>();
+	}
+
+	@Override
+	public String getUsername() {
+		return login;
 	}
 
 }

@@ -18,6 +18,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import sio.spring.todo.entities.User;
 import sio.spring.todo.repositories.UserRepository;
+import sio.spring.todo.services.UserService;
 
 @Controller
 @RequestMapping("/users")
@@ -26,6 +27,9 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private UserService userService;
+
 	@GetMapping
 	public String index(Model model) {
 		List<User> users = userRepository.findAll();
@@ -33,15 +37,16 @@ public class UserController {
 		return "/users/index";
 	}
 
-	@GetMapping("/add")
+	@GetMapping("/register")
 	public ModelAndView addForm() {
 		return new ModelAndView("/users/form", "user", new User());
 	}
 
-	@PostMapping("/add")
+	@PostMapping("/register")
 	public RedirectView add(@ModelAttribute User user, RedirectAttributes attrs) {
 		attrs.addFlashAttribute("user", user);
 		attrs.addFlashAttribute("message", "L'utilisateur " + user.getLogin() + " a été ajouté");
+		userService.encodePassword(user);
 		userRepository.save(user);
 		return new RedirectView("/users");
 	}
