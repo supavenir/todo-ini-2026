@@ -3,6 +3,8 @@ package sio.spring.todo.controllers;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,6 +16,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import sio.spring.todo.dtos.TodoListCreateRequest;
 import sio.spring.todo.entities.TodoList;
+import sio.spring.todo.entities.User;
 import sio.spring.todo.services.AppService;
 import sio.spring.todo.services.TodoService;
 
@@ -32,7 +35,7 @@ public class TodoController {
 
 	@GetMapping
 	public ModelAndView index() {
-		return new ModelAndView("/index", "currentUser", appService.getCurrentUser());
+		return new ModelAndView("/index");
 	}
 
 	@GetMapping("/add")
@@ -57,8 +60,9 @@ public class TodoController {
 	}
 
 	@PostMapping("/add")
-	public RedirectView submitCreate(@ModelAttribute TodoListCreateRequest todoRequest) {
-		todoService.createNewList(todoRequest);
+	public RedirectView submitCreate(@ModelAttribute TodoListCreateRequest todoRequest,
+			@AuthenticationPrincipal UserDetails user) {
+		todoService.createNewList(todoRequest, (User) user);
 		return new RedirectView("/");
 	}
 }

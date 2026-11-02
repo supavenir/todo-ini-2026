@@ -16,10 +16,13 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.csrf(csrf -> csrf.disable())
-				.authorizeHttpRequests(req -> req.requestMatchers(PathRequest.toH2Console()).permitAll()
-						.requestMatchers("/", "/css/**", "/js/**", "/img/**", "/users/register/**").permitAll()
-						.anyRequest().authenticated());
+		http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(req -> req.requestMatchers(PathRequest.toH2Console())
+				.permitAll()
+				.requestMatchers("/", "/css/**", "/js/**", "/img/**", "/signin/**", "/signup/**", "/users/register/**")
+				.permitAll().anyRequest().authenticated());
+		http.formLogin(form -> form.loginPage("/signin").defaultSuccessUrl("/", true).permitAll());
+		http.logout(logout -> logout.logoutUrl("/signout").logoutSuccessUrl("/?signout").invalidateHttpSession(true)
+				.deleteCookies("JSESSIONID"));
 		http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
 		return http.build();
 	}

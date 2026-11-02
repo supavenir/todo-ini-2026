@@ -1,7 +1,8 @@
 package sio.spring.todo.controllers;
 
-import java.util.Optional;
-
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,21 +27,27 @@ public class MainController {
 
 	private final TodoService todoService;
 
-	MainController(AppService appService, UserService userService, TodoService todoService) {
+	private final PasswordEncoder pEncoder;
+
+	MainController(AppService appService, UserService userService, TodoService todoService, PasswordEncoder pEncoder) {
 		this.appService = appService;
 		this.userService = userService;
 		this.todoService = todoService;
+		this.pEncoder = pEncoder;
 	}
 
 	@ModelAttribute(name = "currentUser")
-	private User getCurrentUser() {
-		return appService.getCurrentUser();
+	private User getCurrentUser(Authentication auth) {
+		if (auth != null) {
+			return (User) auth.getPrincipal();
+		}
+		return null;
 	}
 
 	@GetMapping
-	public String index(Model model) {
+	public String index(Model model, Authentication auth) {
 		// Recharger les TodoLists de currentUser
-		User u = getCurrentUser();
+		User u = getCurrentUser(auth);
 		if (u != null) {
 			model.addAttribute("lists", todoService.findByOwner(u));
 		}
@@ -59,11 +66,10 @@ public class MainController {
 
 	@PostMapping("/signin")
 	public RedirectView submitLogin(@ModelAttribute LoginRequest request, HttpSession session) {
-		Optional<User> opt = userService.findUserByLogin(request.getLogin());
-		if (opt.isPresent()) {
-			User user = opt.get();
-			if (request.getPassword().equals(user.getPassword())) {
-				session.setAttribute("currentUser", user);
+		UserDetails userD = userService.loadUserByUsername(request.getLogin());
+		if (userD != null) {
+			User user = (User) userD;
+			if (pEncoder.matches(request.getPassword(), user.getPassword())) {
 				return new RedirectView("/");
 			}
 		}

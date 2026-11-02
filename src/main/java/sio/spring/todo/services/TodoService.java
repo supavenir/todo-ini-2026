@@ -34,9 +34,9 @@ public class TodoService {
 		}
 	}
 
-	public TodoList createNewList(TodoListCreateRequest request) {
+	public TodoList createNewList(TodoListCreateRequest request, User user) {
 		TodoList todoList = new TodoList(request.getName());
-		todoList.setOwner(appService.getCurrentUser());
+		todoList.setOwner(user);
 		elementsToList(request.getElements(), todoList);
 		return todoListRepository.save(todoList);
 	}
